@@ -12,6 +12,7 @@ using Vector = Eigen::Matrix<T, Eigen::Dynamic, 1>;
 template <typename T, int N>
 using ADScalar = Eigen::AutoDiffScalar<Eigen::Matrix<T, N, 1>>;
 
+
 //! The function we'd like to differentiate
 template <typename T>
 T func(T x, T y) {
@@ -21,24 +22,18 @@ T func(T x, T y) {
 //! A silly example
 int main() {
 
-    // Declare our type and the number of derivative
-    // directions to compute
-    using T = double;
-    const int N = 2;
+    ADScalar<double, 2> x;
+    ADScalar<double, 2> y;
 
-    // Instantiate an AutoDiffScalar
-    ADScalar<T, N> x;
-    x.value() = 1.0;
-    x.derivatives() = Vector<T>::Unit(N, 0);
+    x.value() = 5;
+    y.value() = 3;
 
-    // Instantiate another AutoDiffScalar
-    ADScalar<T, N> y;
-    y.value() = 2.0;
-    y.derivatives() = Vector<T>::Unit(N, 1);
+    x.derivatives() = Vector<double>::Unit(2, 0);
+    y.derivatives() = Vector<double>::Unit(2, 1);
 
-    // Compute the function value and its derivs
-    ADScalar<T, N> result = func(x, y);
+    ADScalar<double, 2> result;
+    result = func(x, y);
+
     std::cout << result.value() << std::endl;
     std::cout << result.derivatives() << std::endl;
-
 }
